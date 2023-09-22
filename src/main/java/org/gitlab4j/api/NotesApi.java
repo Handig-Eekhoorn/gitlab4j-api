@@ -152,7 +152,7 @@ public class NotesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Note createIssueNote(Object projectIdOrPath, Long issueIid, String body) throws GitLabApiException {
-        return (createIssueNote(projectIdOrPath, issueIid, body, null, false));
+        return (createIssueNote(projectIdOrPath, issueIid, body, null, null));
     }
 
     /**
@@ -166,7 +166,8 @@ public class NotesApi extends AbstractApi {
      * @throws GitLabApiException if any exception occurs
      */
     public Note createIssueNote(Object projectIdOrPath, Long issueIid, String body, Date createdAt) throws GitLabApiException {
-        return (createIssueNote(projectIdOrPath, issueIid, body, null, false));    }
+        return (createIssueNote(projectIdOrPath, issueIid, body, null, null));
+    }
 
     /**
      * Create a issues's note.
@@ -179,15 +180,13 @@ public class NotesApi extends AbstractApi {
      * @return the created Note instance
      * @throws GitLabApiException if any exception occurs
      */
-    public Note createIssueNote(Object projectIdOrPath, Long issueIid, String body, Date createdAt, boolean internal) throws GitLabApiException {
+    public Note createIssueNote(Object projectIdOrPath, Long issueIid, String body, Date createdAt, Boolean internal) throws GitLabApiException {
 
         GitLabApiForm formData = new GitLabApiForm()
                 .withParam("body", body, true)
                 .withParam("created_at", createdAt)
+                .withParam("internal", internal);
         ;
-        if (internal) {
-        	formData.withParam("internal", "true");
-        }
         Response response = post(Response.Status.CREATED, formData,
                 "projects", getProjectIdOrPath(projectIdOrPath), "issues", issueIid, "notes");
         return (response.readEntity(Note.class));
