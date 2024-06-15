@@ -1,12 +1,14 @@
 
 package org.gitlab4j.api.models;
 
+import org.gitlab4j.api.utils.JacksonJson;
+
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import org.gitlab4j.api.utils.JacksonJson;
-
-public class Commit {
+public class Commit implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private Author author;
     private Date authoredDate;
@@ -244,7 +246,15 @@ public class Commit {
         return this;
     }
 
+    /**
+     * @deprecated use {@link #withShortId(String)} instead
+     */
+    @Deprecated
     public Commit withShorwId(String shortId) {
+        return withShortId(shortId);
+    }
+
+    public Commit withShortId(String shortId) {
         this.shortId = shortId;
         return this;
     }

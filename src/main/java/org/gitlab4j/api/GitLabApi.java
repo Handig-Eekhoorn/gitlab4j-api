@@ -65,6 +65,7 @@ public class GitLabApi implements AutoCloseable {
     private EpicsApi epicsApi;
     private EventsApi eventsApi;
     private ExternalStatusCheckApi externalStatusCheckApi;
+    private GitLabCiYamlApi gitLabCiYaml;
     private GroupApi groupApi;
     private HealthCheckApi healthCheckApi;
     private ImportExportApi importExportApi;
@@ -96,9 +97,11 @@ public class GitLabApi implements AutoCloseable {
     private SystemHooksApi systemHooksApi;
     private TagsApi tagsApi;
     private TodosApi todosApi;
+    private TopicsApi topicsApi;
     private UserApi userApi;
     private WikisApi wikisApi;
     private KeysApi keysApi;
+    private MetadataApi metadataApi;
 
     /**
      * Get the GitLab4J shared Logger instance.
@@ -1108,6 +1111,20 @@ public class GitLabApi implements AutoCloseable {
         return (externalStatusCheckApi);
     }
 
+    /**
+     * Gets the GitLabCiYamlApi instance owned by this GitLabApi instance. The GitLabCiYamlApi is used to get Gitlab CI YAML templates.
+     *
+     * @return the GitLabCiYamlApi instance owned by this GitLabApi instance
+     */
+    public GitLabCiYamlApi getGitLabCiYamlApi() {
+        synchronized (this) {
+            if (gitLabCiYaml == null) {
+                gitLabCiYaml = new GitLabCiYamlApi(this);
+            }
+        }
+        return gitLabCiYaml;
+    }
+
 
     /**
      * Gets the GroupApi instance owned by this GitLabApi instance. The GroupApi is used
@@ -1463,7 +1480,7 @@ public class GitLabApi implements AutoCloseable {
 
         return releaseLinksApi;
     }
-    
+
     /**
      * Gets the ReleasesApi instance owned by this GitLabApi instance. The ReleasesApi is used
      * to perform all release related API calls.
@@ -1655,6 +1672,25 @@ public class GitLabApi implements AutoCloseable {
     }
 
     /**
+     * Gets the TagsApi instance owned by this GitLabApi instance. The TagsApi is used
+     * to perform all tag and release related API calls.
+     *
+     * @return the TagsApi instance owned by this GitLabApi instance
+     */
+    public TopicsApi getTopicsApi() {
+
+        if (topicsApi == null) {
+            synchronized (this) {
+                if (topicsApi == null) {
+                    topicsApi = new TopicsApi(this);
+                }
+            }
+        }
+
+        return (topicsApi);
+    }
+
+    /**
      * Gets the SnippetsApi instance owned by this GitLabApi instance. The SnippetsApi is used
      * to perform all snippet related API calls.
      *
@@ -1737,6 +1773,21 @@ public class GitLabApi implements AutoCloseable {
             }
         }
         return keysApi;
+    }
+
+    /**
+     * Gets the MetadataApi instance owned by this GitlabApi instance. The MetadataApi is used to
+     * retrieve metadata information for this GitLab instance
+     *
+     * @return the MetadataApi instance owned by this GitlabApi instance
+     */
+    public MetadataApi getMetadataApi() {
+        synchronized (this) {
+            if (metadataApi == null) {
+                metadataApi = new MetadataApi(this);
+            }
+        }
+        return metadataApi;
     }
 
 

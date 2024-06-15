@@ -758,7 +758,7 @@ public interface Constants {
      */
     public enum GroupSearchScope {
 
-        PROJECTS, ISSUES, MERGE_REQUESTS, MILESTONES, USERS;
+        PROJECTS, ISSUES, MERGE_REQUESTS, MILESTONES, WIKI_BLOBS, COMMITS, BLOBS, NOTES, USERS;
 
         private static JacksonJsonEnumHelper<GroupSearchScope> enumHelper = new JacksonJsonEnumHelper<>(GroupSearchScope.class);
 
@@ -1027,6 +1027,74 @@ public interface Constants {
         @Override
         public String toString() {
             return (enumHelper.toString(this));
+        }
+    }
+
+    /**
+     * Constant to specify the project_creation_level for the group.
+     */
+    public enum ProjectCreationLevel {
+        NOONE, DEVELOPER, MAINTAINER;
+
+        private static JacksonJsonEnumHelper<ProjectCreationLevel> enumHelper = new JacksonJsonEnumHelper<>(ProjectCreationLevel.class);
+
+        @JsonCreator
+        public static ProjectCreationLevel forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
+    /**
+     * Constant to specify the subgroup_creation_level for the group.
+     */
+    public enum SubgroupCreationLevel {
+        OWNER, MAINTAINER;
+
+        private static JacksonJsonEnumHelper<SubgroupCreationLevel> enumHelper = new JacksonJsonEnumHelper<>(SubgroupCreationLevel.class);
+
+        @JsonCreator
+        public static SubgroupCreationLevel forValue(String value) {
+            return enumHelper.forValue(value);
+        }
+
+        @JsonValue
+        public String toValue() {
+            return (enumHelper.toString(this));
+        }
+
+        @Override
+        public String toString() {
+            return (enumHelper.toString(this));
+        }
+    }
+
+    public enum DefaultBranchProtectionLevel {
+        NOT_PROTECTED(0),
+        PARTIALLY_PROTECTED(1),
+        FULLY_PROTECTED(2),
+        PROTECTED_AGAINST_PUSHES(3),
+        FULL_PROTECTION_AFTER_INITIAL_PUSH(4);
+        
+        @JsonValue
+        private final int value;
+        
+        private DefaultBranchProtectionLevel(int value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return Integer.toString(value);
         }
     }
 }
